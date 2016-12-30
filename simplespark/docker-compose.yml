@@ -1,0 +1,28 @@
+version: "2"
+services:
+  master:
+    container_name: master
+    image: gettyimages/spark:1.6.0-hadoop-2.6
+    command: /usr/spark/bin/spark-class org.apache.spark.deploy.master.Master -h master
+    hostname: master
+    environment:
+      - constraint:role==master
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    expose:
+      - "8081-8095"
+  worker:
+    image: gettyimages/spark:1.6.0-hadoop-2.6
+    command: /usr/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      - constraint:role!=master
+    ports:
+      - 8081:8081
+    expose:
+      - "8081-8095"
+networks:
+  default:
+    driver: overlay

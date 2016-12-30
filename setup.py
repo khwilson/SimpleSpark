@@ -34,7 +34,7 @@ setup(
   author_email="khwilson@gmail.com",
   license="Proprietary",
   packages=find_packages(),
-  package_data={'simplespark': ['VERSION']},
+  package_data={'simplespark': ['VERSION', 'docker-compose.yml']},
   install_requires=parse_requirements('requirements.in'),
   tests_require=parse_requirements('requirements.testing.in'),
   description="A simple way to spin up a spark cluster quickly",

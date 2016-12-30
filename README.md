@@ -3,6 +3,14 @@
 This is a small tool that allows you to spin up and down a simple spark
 cluster.
 
+## Requirements
+
+You need to have the following already setup on your box to use this:
+* docker
+* docker-compose
+* docker-machine
+* awscli (with basically full EC2 permissions)
+
 
 ## Acknowledgements
 

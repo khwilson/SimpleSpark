@@ -2,7 +2,7 @@ version: "2"
 services:
   master:
     container_name: master
-    image: gettyimages/spark:1.6.0-hadoop-2.6
+    image: gettyimages/spark:2.0.2-hadoop-2.7
     command: /usr/spark/bin/spark-class org.apache.spark.deploy.master.Master -h master
     hostname: master
     environment:
@@ -15,7 +15,7 @@ services:
     expose:
       - "8081-8095"
   worker:
-    image: gettyimages/spark:1.6.0-hadoop-2.6
+    image: gettyimages/spark:2.0.2-hadoop-2.7
     command: /usr/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
       - constraint:role!=master

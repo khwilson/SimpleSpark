@@ -42,7 +42,7 @@ def create_consul_box(instance_name, instance_type, security_group):
                          instance_name])
   machine_connection = subprocess.check_output(['docker-machine', 'config', instance_name])
   subprocess.check_call(['docker', machine_connection, 'run', '-d', '-p', '8500:8500',
-                         '-h', 'consul', 'progrium/consul-server', '-bootstrap'])
+                         '-h', 'consul', 'progrium/consul', '-server', '-bootstrap'])
   click.echo("Consul box successfully created at " + machine_connection)
 
 
@@ -163,10 +163,10 @@ def test_spark_cluster(cluster_prefix):
   click.echo("Submitting job to " + master_name)
   output = subprocess.check_output(['docker', 'run',
     '--net=container:master', '--entrypoint' 'spark-submit',
-    'gettyimages/spark:1.6.0-hadoop-2.6',
+    'gettyimages/spark:2.0.2-hadoop-2.7',
     '--master', 'spark://master:7077',
     '--class', 'org.apache.spark.examples.SparkPi',
-    '/usr/spark/lib/spark-examples-1.6.0-hadoop2.6.0.jar'])
+    '/usr/spark/lib/spark-examples-2.0.2-hadoop2.7.0.jar'])
   click.echo(output)
 
 

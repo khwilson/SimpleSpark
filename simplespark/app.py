@@ -41,8 +41,14 @@ def create_consul_box(instance_name, instance_type, security_group):
                          '--amazonec2-instance-type=' + instance_type,
                          instance_name])
   machine_connection = subprocess.check_output(['docker-machine', 'config', instance_name])
-  subprocess.check_call(['docker', machine_connection, 'run', '-d', '-p', '8500:8500',
-                         '-h', 'consul', 'progrium/consul', '-server', '-bootstrap'])
+  subprocess.check_call(['docker', machine_connection, 'run', '-d',
+                         '-p', '8400:8400', '-p', '8500:8500/tcp', '-p', '8600:53/udp',
+                         '-e', 'CONSUL_LOCAL_CONFIG={"acl_datacenter":"dc1",'
+                               '"acl_default_policy":"deny","acl_down_policy":"extend-cache",'
+                               '"acl_master_token":"the_one_ring","bootstrap_expect":1,'
+                               '"datacenter":"dc1","data_dir":"/usr/local/bin/consul.d/data",'
+                               '"server":true}',
+                         'consul:0.7.2', 'agent', '-server', '-bind=127.0.0.1', '-client=0.0.0.0'])
   click.echo("Consul box successfully created at " + machine_connection)
 
 
